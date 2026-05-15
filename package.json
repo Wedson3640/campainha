@@ -1,0 +1,26 @@
+{
+  "name": "campainha-digital",
+  "private": true,
+  "version": "0.1.0",
+  "workspaces": [
+    "apps/mobile",
+    "apps/web",
+    "packages/shared"
+  ],
+  "scripts": {
+    "dev:web": "npm run dev -w @campainha/web",
+    "dev:mobile": "npm run start -w @campainha/mobile",
+    "mobile:android": "npm run android -w @campainha/mobile",
+    "mobile:ios": "npm run ios -w @campainha/mobile",
+    "mobile:web": "npm run web -w @campainha/mobile",
+    "build:web": "npm run build -w @campainha/web",
+    "preview:web": "npm run preview -w @campainha/web",
+    "typecheck": "npm run typecheck -w @campainha/mobile && npm run typecheck -w @campainha/web && npm run typecheck -w @campainha/shared"
+  },
+  "volta": {
+    "node": "20.20.2"
+  },
+  "dependencies": {
+    "react-native-css-interop": "^0.2.3"
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "expo": {
+    "name": "Campainha Digital QR",
+    "slug": "campainha-digital-qr",
+    "scheme": "campainhaqr",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "assetBundlePatterns": ["**/*"],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.campainha.digitalqr"
+    },
+    "android": {
+      "package": "com.campainha.digitalqr",
+      "permissions": ["VIBRATE", "POST_NOTIFICATIONS"]
+    },
+    "plugins": ["expo-router", "expo-notifications"],
+    "extra": {
+      "router": {
+        "origin": false
+      }
+    }
+  }
+}

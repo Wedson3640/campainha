@@ -1,0 +1,2 @@
+-- Execute depois de criar um usuário pelo Supabase Auth, substituindo o UUID abaixo.
+-- insert into public.profiles (id, nome) values ('00000000-0000-0000-0000-000000000000', 'Morador');
