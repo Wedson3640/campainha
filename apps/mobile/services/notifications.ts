@@ -1,18 +1,23 @@
 import * as Device from "expo-device";
 import * as Notifications from "expo-notifications";
+import Constants from "expo-constants";
 import { Platform } from "react-native";
 import { supabase } from "@/lib/supabase";
 
-Notifications.setNotificationHandler({
-  handleNotification: async () => ({
-    shouldShowAlert: true,
-    shouldPlaySound: true,
-    shouldSetBadge: false
-  })
-});
+const isExpoGo = Constants.executionEnvironment === "storeClient";
+
+if (!isExpoGo) {
+  Notifications.setNotificationHandler({
+    handleNotification: async () => ({
+      shouldShowAlert: true,
+      shouldPlaySound: true,
+      shouldSetBadge: false
+    })
+  });
+}
 
 export async function registerDeviceToken(ownerId: string) {
-  if (!Device.isDevice) return;
+  if (!Device.isDevice || isExpoGo) return;
 
   const current = await Notifications.getPermissionsAsync();
   const finalStatus =

@@ -11,6 +11,7 @@ export default function LoginScreen() {
   const [loading, setLoading] = useState(false);
 
   async function signIn() {
+    if (!isValidEmail(email)) return Alert.alert("Email inválido", "Digite um email válido.");
     setLoading(true);
     const { error } = await supabase.auth.signInWithPassword({ email: email.trim(), password });
     setLoading(false);
@@ -18,7 +19,14 @@ export default function LoginScreen() {
     router.replace("/");
   }
 
+  function isValidEmail(value: string) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value.trim());
+  }
+
   async function signUp() {
+    if (!isValidEmail(email)) return Alert.alert("Email inválido", "Digite um email válido.");
+    if (password.length < 6) return Alert.alert("Senha fraca", "A senha deve ter pelo menos 6 caracteres.");
+
     setLoading(true);
     const { data, error } = await supabase.auth.signUp({ email: email.trim(), password });
     if (!error && data.user) {
@@ -26,7 +34,12 @@ export default function LoginScreen() {
     }
     setLoading(false);
     if (error) return Alert.alert("Não foi possível criar conta", error.message);
-    Alert.alert("Conta criada", "Se a confirmação de email estiver ativa, confirme antes de entrar.");
+
+    if (data.session) {
+      router.replace("/profile-setup");
+    } else {
+      Alert.alert("Confirme seu email", "Acesse sua caixa de entrada e clique no link de confirmação antes de entrar.");
+    }
   }
 
   return (
