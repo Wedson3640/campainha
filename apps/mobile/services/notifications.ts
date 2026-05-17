@@ -36,7 +36,10 @@ export async function registerDeviceToken(ownerId: string) {
     });
   }
 
-  const token = (await Notifications.getExpoPushTokenAsync()).data;
+  const projectId =
+    Constants.expoConfig?.extra?.eas?.projectId ??
+    Constants.easConfig?.projectId;
+  const token = (await Notifications.getExpoPushTokenAsync({ projectId })).data;
   await supabase.from("device_tokens").upsert(
     {
       owner_id: ownerId,

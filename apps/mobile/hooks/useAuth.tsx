@@ -19,6 +19,7 @@ export function AuthProvider({ children }: PropsWithChildren) {
     supabase.auth.getSession().then(({ data }) => {
       setSession(data.session);
       setLoading(false);
+      if (data.session?.user.id) void registerDeviceToken(data.session.user.id);
     });
 
     const { data } = supabase.auth.onAuthStateChange((_event, nextSession) => {
