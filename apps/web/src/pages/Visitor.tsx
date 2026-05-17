@@ -5,6 +5,22 @@ import { supabase, supabaseConfigError } from "../lib/supabase";
 
 type Status = "loading" | "ready" | "invalid" | "config-error" | "sending" | "sent" | "error";
 
+function useCountdown(active: boolean, seconds: number, onDone: () => void) {
+  const [remaining, setRemaining] = React.useState(seconds);
+  React.useEffect(() => {
+    if (!active) { setRemaining(seconds); return; }
+    setRemaining(seconds);
+    const id = setInterval(() => {
+      setRemaining((n) => {
+        if (n <= 1) { clearInterval(id); onDone(); return 0; }
+        return n - 1;
+      });
+    }, 1000);
+    return () => clearInterval(id);
+  }, [active]);
+  return remaining;
+}
+
 async function captureVisitorPhoto(video: HTMLVideoElement, token: string) {
   if (!supabase) throw new Error(supabaseConfigError);
   const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "user" }, audio: false });
@@ -31,6 +47,8 @@ export function Visitor({ token }: { token: string }) {
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
   const videoRef = useRef<HTMLVideoElement>(null);
+
+  const countdown = useCountdown(status === "sent", 10, () => setStatus("ready"));
 
   useEffect(() => {
     async function load() {
@@ -106,6 +124,12 @@ export function Visitor({ token }: { token: string }) {
             <div className="success-ring">✓</div>
             <h1>Campainha enviada</h1>
             <p>Aguarde atendimento.</p>
+            <p className="note" style={{ marginTop: 16 }}>
+              Chamar novamente em <strong>{countdown}s</strong>
+            </p>
+          </div>
+          <div style={{ marginTop: 20 }}>
+            <button className="secondary" onClick={() => setStatus("ready")}>← Voltar</button>
           </div>
           <div className="door-line" aria-hidden="true" />
         </section>
