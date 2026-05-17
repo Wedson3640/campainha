@@ -13,11 +13,13 @@
     "@campainha/shared": "*",
     "@supabase/supabase-js": "^2.45.4",
     "@vitejs/plugin-react": "^4.3.1",
+    "qrcode": "^1.5.4",
     "vite": "^5.4.8",
     "react": "19.1.0",
     "react-dom": "19.1.0"
   },
   "devDependencies": {
+    "@types/qrcode": "^1.5.5",
     "@types/react": "~19.1.10",
     "@types/react-dom": "~19.1.7",
     "typescript": "^5.5.4"

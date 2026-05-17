@@ -187,10 +187,207 @@ button:disabled {
 }
 
 @keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
+  to { transform: rotate(360deg); }
 }
+
+/* ── Login panel ───────────────────────────────────────────────────────── */
+
+.panel {
+  width: min(100%, 400px);
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 36px 28px;
+  box-shadow: 0 16px 45px rgba(37, 99, 235, 0.1);
+}
+
+/* ── Management panel ──────────────────────────────────────────────────── */
+
+.app-layout {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: #f8fafc;
+}
+
+.app-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 20px;
+  background: #ffffff;
+  border-bottom: 1px solid #e2e8f0;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.app-logo {
+  height: 32px;
+  width: auto;
+}
+
+.app-main {
+  flex: 1;
+  width: min(100%, 640px);
+  margin: 0 auto;
+  padding: 24px 20px 48px;
+}
+
+.app-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.app-title {
+  font-size: 22px;
+  font-weight: 800;
+  margin: 0;
+}
+
+.btn-ghost {
+  background: none;
+  border: none;
+  min-height: auto;
+  color: #2563eb;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 6px 10px;
+  border-radius: 6px;
+}
+
+.btn-ghost:hover { background: #f1f5f9; }
+.btn-danger { color: #dc2626; }
+
+.center-block {
+  display: flex;
+  justify-content: center;
+  padding: 48px 0;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 56px 24px;
+  color: #64748b;
+}
+
+.empty-icon { font-size: 48px; margin-bottom: 12px; }
+
+.doorbell-list { display: flex; flex-direction: column; gap: 10px; }
+
+.doorbell-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 16px;
+  cursor: pointer;
+  text-align: left;
+  min-height: auto;
+  font: inherit;
+  color: inherit;
+  transition: box-shadow 0.15s;
+}
+
+.doorbell-card:hover { box-shadow: 0 4px 16px rgba(15,23,42,0.08); }
+
+.doorbell-icon-wrap { font-size: 28px; flex-shrink: 0; }
+
+.doorbell-info { flex: 1; display: flex; flex-direction: column; gap: 2px; }
+
+.doorbell-nome { font-weight: 700; font-size: 16px; }
+
+.doorbell-local { font-size: 13px; color: #64748b; }
+
+.chevron { font-size: 22px; color: #94a3b8; }
+
+/* Modal */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(15,23,42,0.5);
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  z-index: 100;
+}
+
+.modal {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 28px;
+  width: min(100%, 420px);
+  box-shadow: 0 24px 60px rgba(15,23,42,0.2);
+}
+
+.modal h2 { margin: 0 0 20px; }
+
+.modal-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+.modal-actions button { flex: 1; }
+
+/* Forms */
+.form { display: flex; flex-direction: column; gap: 12px; }
+
+.input {
+  display: block;
+  width: 100%;
+  height: 48px;
+  padding: 0 14px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  background: #f8fafc;
+  font: inherit;
+  font-size: 15px;
+  color: #0f172a;
+  outline: none;
+}
+
+.input:focus { border-color: #2563eb; background: #fff; }
+
+.panel-title { font-size: 26px; margin: 0 0 6px; }
+.panel-sub { margin: 0 0 20px; }
+.panel-switch { text-align: center; margin-top: 16px; font-size: 14px; }
+.panel-switch a { color: #2563eb; font-weight: 600; }
+
+/* Doorbell detail */
+.detail-local { color: #64748b; margin: -8px 0 20px; }
+
+.qr-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 28px;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.qr-img { width: 200px; height: 200px; border-radius: 8px; }
+
+.qr-hint { font-size: 13px; color: #64748b; margin: 14px 0 0; }
+
+.detail-actions { display: flex; gap: 10px; margin-bottom: 16px; }
+.detail-actions button { flex: 1; }
+
+.url-box {
+  background: #f1f5f9;
+  border-radius: 8px;
+  padding: 12px 14px;
+  word-break: break-all;
+}
+
+.url-box code { font-size: 12px; color: #475569; }
 
 @media (max-width: 480px) {
   .page {
