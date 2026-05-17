@@ -99,6 +99,13 @@ button:disabled {
   margin-bottom: 0;
 }
 
+.logo {
+  display: block;
+  height: 40px;
+  width: auto;
+  margin-bottom: 20px;
+}
+
 .hidden-video {
   height: 1px;
   opacity: 0;

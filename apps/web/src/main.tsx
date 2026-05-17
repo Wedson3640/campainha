@@ -92,21 +92,22 @@ function App() {
   }
 
   if (status === "loading") {
-    return <main className="page"><section className="panel"><p>Validando campainha...</p></section></main>;
+    return <main className="page"><section className="panel"><img src="/logo.png" alt="Campainha Digital" className="logo" /><p>Validando campainha...</p></section></main>;
   }
 
   if (status === "invalid") {
-    return <main className="page"><section className="panel"><h1>Campainha indisponível</h1><p>Este QR Code não está ativo ou foi revogado.</p></section></main>;
+    return <main className="page"><section className="panel"><img src="/logo.png" alt="Campainha Digital" className="logo" /><h1>Campainha indisponível</h1><p>Este QR Code não está ativo ou foi revogado.</p></section></main>;
   }
 
   if (status === "config-error") {
-    return <main className="page"><section className="panel"><h1>Configuracao ausente</h1><p>{supabaseConfigError}</p></section></main>;
+    return <main className="page"><section className="panel"><img src="/logo.png" alt="Campainha Digital" className="logo" /><h1>Configuração ausente</h1><p>{supabaseConfigError}</p></section></main>;
   }
 
   if (status === "sent") {
     return (
       <main className="page">
         <section className="panel success">
+          <img src="/logo.png" alt="Campainha Digital" className="logo" />
           <h1>Campainha enviada</h1>
           <p>Aguarde atendimento.</p>
         </section>
@@ -117,6 +118,7 @@ function App() {
   return (
     <main className="page">
       <section className="panel">
+        <img src="/logo.png" alt="Campainha Digital" className="logo" />
         <p className="eyebrow">Campainha Digital</p>
         <h1>Você está chamando: {doorbell?.local || doorbell?.nome}</h1>
         <p className="privacy">
