@@ -1,5 +1,6 @@
-import React, { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { VisitorCall } from "@campainha/shared";
+import { supabase } from "../lib/supabase";
 
 type Props = {
   call: VisitorCall | null;
@@ -8,9 +9,10 @@ type Props = {
 
 export function CallNotification({ call, onClose }: Props) {
   const audioRef = useRef<HTMLAudioElement | null>(null);
+  const [photoUrl, setPhotoUrl] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!call) return;
+    if (!call) { setPhotoUrl(null); return; }
 
     const audio = new Audio("/doorbell.wav");
     audio.loop = true;
@@ -18,12 +20,20 @@ export function CallNotification({ call, onClose }: Props) {
     audioRef.current = audio;
     audio.play().catch(() => undefined);
 
+    if (call.visitor_photo_url && supabase) {
+      supabase.storage
+        .from("visitor-photos")
+        .createSignedUrl(call.visitor_photo_url, 300)
+        .then(({ data }) => setPhotoUrl(data?.signedUrl ?? null))
+        .catch(() => undefined);
+    }
+
     return () => {
       audio.pause();
       audio.currentTime = 0;
       audioRef.current = null;
     };
-  }, [call]);
+  }, [call?.id]);
 
   if (!call) return null;
 
@@ -34,6 +44,7 @@ export function CallNotification({ call, onClose }: Props) {
       audioRef.current.pause();
       audioRef.current = null;
     }
+    setPhotoUrl(null);
     onClose();
   }
 
@@ -46,6 +57,22 @@ export function CallNotification({ call, onClose }: Props) {
 
         <h2 className="call-title">Alguém está na porta!</h2>
         <p className="call-local">{local}</p>
+
+        {photoUrl ? (
+          <div className="call-photo-wrap">
+            <img src={photoUrl} alt="Foto do visitante" className="call-photo" />
+          </div>
+        ) : call.visitor_photo_url ? (
+          <div className="call-photo-wrap call-photo-loading">
+            <span className="loader" />
+            <p style={{ color: "#64748b", fontSize: 13, marginTop: 8 }}>Carregando foto…</p>
+          </div>
+        ) : (
+          <div className="call-photo-wrap call-photo-empty">
+            <span style={{ fontSize: 56 }}>👤</span>
+            <p style={{ color: "#64748b", fontSize: 13, marginTop: 8 }}>Sem foto</p>
+          </div>
+        )}
 
         {call.message && (
           <div className="call-message">
