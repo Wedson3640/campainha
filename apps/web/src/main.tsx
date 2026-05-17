@@ -40,6 +40,17 @@ async function captureVisitorPhoto(video: HTMLVideoElement, token: string) {
   return path;
 }
 
+function Shell({ children }: React.PropsWithChildren) {
+  return (
+    <main className="page">
+      <section className="phone">
+        <img src="/logo.png" alt="Campainha Digital" className="logo" />
+        {children}
+      </section>
+    </main>
+  );
+}
+
 function App() {
   const token = useMemo(getTokenFromPath, []);
   const [doorbell, setDoorbell] = useState<PublicDoorbell | null>(null);
@@ -92,53 +103,83 @@ function App() {
   }
 
   if (status === "loading") {
-    return <main className="page"><section className="panel"><img src="/logo.png" alt="Campainha Digital" className="logo" /><p>Validando campainha...</p></section></main>;
+    return (
+      <Shell>
+        <div className="state-card">
+          <span className="loader" />
+          <p>Validando campainha...</p>
+        </div>
+      </Shell>
+    );
   }
 
   if (status === "invalid") {
-    return <main className="page"><section className="panel"><img src="/logo.png" alt="Campainha Digital" className="logo" /><h1>Campainha indisponível</h1><p>Este QR Code não está ativo ou foi revogado.</p></section></main>;
+    return (
+      <Shell>
+        <div className="state-card">
+          <h1>Campainha indisponível</h1>
+          <p>Este QR Code não está ativo ou foi revogado.</p>
+        </div>
+      </Shell>
+    );
   }
 
   if (status === "config-error") {
-    return <main className="page"><section className="panel"><img src="/logo.png" alt="Campainha Digital" className="logo" /><h1>Configuração ausente</h1><p>{supabaseConfigError}</p></section></main>;
+    return (
+      <Shell>
+        <div className="state-card">
+          <h1>Configuração ausente</h1>
+          <p>{supabaseConfigError}</p>
+        </div>
+      </Shell>
+    );
   }
 
   if (status === "sent") {
     return (
-      <main className="page">
-        <section className="panel success">
-          <img src="/logo.png" alt="Campainha Digital" className="logo" />
+      <Shell>
+        <div className="success-card">
+          <div className="success-ring">✓</div>
           <h1>Campainha enviada</h1>
           <p>Aguarde atendimento.</p>
-        </section>
-      </main>
+        </div>
+        <div className="door-line" aria-hidden="true" />
+      </Shell>
     );
   }
 
   return (
-    <main className="page">
-      <section className="panel">
-        <img src="/logo.png" alt="Campainha Digital" className="logo" />
-        <p className="eyebrow">Campainha Digital</p>
-        <h1>Você está chamando: {doorbell?.local || doorbell?.nome}</h1>
-        <p className="privacy">
-          A câmera é opcional. Se você permitir, uma imagem será enviada apenas para o morador responsável por esta campainha.
-        </p>
+    <Shell>
+      <p className="eyebrow">Campainha Digital</p>
+      <h1>Você está chamando: {doorbell?.local || doorbell?.nome}</h1>
+
+      <div className="privacy">
+        <span>▣</span>
+        <p>A câmera é opcional. Se você permitir, uma imagem será enviada apenas para o morador responsável por esta campainha.</p>
+      </div>
+
+      <label className="field">
         <textarea
           value={message}
           onChange={(event) => setMessage(event.target.value)}
           maxLength={240}
           placeholder="Mensagem opcional"
         />
-        {error ? <p className="error">{error}</p> : null}
-        <div className="actions">
-          <button disabled={status === "sending"} onClick={() => ring(false)}>Chamar sem câmera</button>
-          <button disabled={status === "sending"} className="secondary" onClick={() => ring(true)}>Permitir câmera e chamar</button>
-        </div>
-        <video ref={videoRef} muted playsInline className="hidden-video" />
-        <p className="note">O QR Code não expõe dados pessoais do morador.</p>
-      </section>
-    </main>
+        <small>{message.length}/240</small>
+      </label>
+
+      {error ? <p className="error">{error}</p> : null}
+      <div className="actions">
+        <button disabled={status === "sending"} onClick={() => ring(false)}>
+          <span>🔔</span> Chamar sem câmera
+        </button>
+        <button disabled={status === "sending"} className="secondary" onClick={() => ring(true)}>
+          <span>📷</span> Permitir câmera e chamar
+        </button>
+      </div>
+      <video ref={videoRef} muted playsInline className="hidden-video" />
+      <p className="note">Seguro e privado. Seus dados não são compartilhados.</p>
+    </Shell>
   );
 }
 

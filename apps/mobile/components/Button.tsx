@@ -1,26 +1,35 @@
-import { ActivityIndicator, Pressable, Text } from "react-native";
+import type { ComponentProps } from "react";
+import { Ionicons } from "@expo/vector-icons";
+import { ActivityIndicator, Pressable, Text, View } from "react-native";
 
 type ButtonProps = {
   title: string;
   onPress: () => void;
-  variant?: "primary" | "secondary" | "danger";
+  variant?: "primary" | "secondary" | "dark" | "danger" | "muted";
   loading?: boolean;
   disabled?: boolean;
+  icon?: ComponentProps<typeof Ionicons>["name"];
 };
 
 const variants = {
   primary: "bg-brand",
   secondary: "bg-white border border-slate-200",
-  danger: "bg-danger"
+  dark: "bg-ink",
+  danger: "bg-danger",
+  muted: "bg-slate-700"
 };
 
 const textVariants = {
   primary: "text-white",
   secondary: "text-ink",
-  danger: "text-white"
+  dark: "text-white",
+  danger: "text-white",
+  muted: "text-white"
 };
 
-export function Button({ title, onPress, variant = "primary", loading, disabled }: ButtonProps) {
+export function Button({ title, onPress, variant = "primary", loading, disabled, icon }: ButtonProps) {
+  const iconColor = variant === "secondary" ? "#0F172A" : "#FFFFFF";
+
   return (
     <Pressable
       accessibilityRole="button"
@@ -31,7 +40,12 @@ export function Button({ title, onPress, variant = "primary", loading, disabled 
       }`}
     >
       {loading ? <ActivityIndicator color={variant === "secondary" ? "#0F172A" : "#FFFFFF"} /> : null}
-      {!loading ? <Text className={`font-semibold ${textVariants[variant]}`}>{title}</Text> : null}
+      {!loading ? (
+        <View className="flex-row items-center justify-center gap-2">
+          {icon ? <Ionicons name={icon} size={18} color={iconColor} /> : null}
+          <Text className={`font-semibold ${textVariants[variant]}`}>{title}</Text>
+        </View>
+      ) : null}
     </Pressable>
   );
 }

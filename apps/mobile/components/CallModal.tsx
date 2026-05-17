@@ -1,10 +1,12 @@
 import { useEffect, useRef, useState } from "react";
 import { Audio } from "expo-av";
 import { Modal, Text, Vibration, View } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
 import type { VisitorCall } from "@campainha/shared";
 import { loadSettings } from "@/lib/settings";
 import { endCall, markCallViewed } from "@/services/calls";
 import { Button } from "./Button";
+import { BrandLogo } from "./BrandLogo";
 
 type CallModalProps = {
   call: VisitorCall | null;
@@ -53,7 +55,7 @@ export function CallModal({ call, onClose, onView }: CallModalProps) {
 
   if (!call) return null;
 
-  const local = call.doorbells?.local ?? "Campainha";
+  const local = call.doorbells?.local ?? "Portão da frente";
   const nome = call.doorbells?.nome ?? "Campainha Digital";
 
   async function closeAsEnded() {
@@ -72,22 +74,32 @@ export function CallModal({ call, onClose, onView }: CallModalProps) {
 
   return (
     <Modal visible transparent animationType="fade">
-      <View className="flex-1 justify-center bg-black/50 px-5">
-        <View className="rounded-2xl bg-white p-5">
-          <Text className="text-2xl font-bold text-ink">Alguém está na porta</Text>
-          <Text className="mt-3 text-base text-muted">{nome}</Text>
-          <Text className="text-base text-muted">{local}</Text>
-          <Text className="mt-2 text-sm text-muted">
-            Horário: {new Date(call.created_at).toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" })}
-          </Text>
-          <Text className="mt-2 text-sm font-semibold text-alert">Status: {call.status}</Text>
+      <View className="flex-1 justify-center bg-ink px-5">
+        <View className="gap-5 rounded-xl bg-slate-900 p-5">
+          <BrandLogo light />
+          <View className="items-center">
+            <View className="h-16 w-16 items-center justify-center rounded-full border border-blue-300 bg-brand">
+              <Ionicons name="notifications" size={34} color="#FFFFFF" />
+            </View>
+            <Text className="mt-4 text-center text-3xl font-bold text-white">Alguém está na porta</Text>
+            <Text className="mt-2 text-center text-lg font-semibold text-blue-200">{local || nome}</Text>
+            <Text className="mt-1 text-center text-blue-100">
+              {new Date(call.created_at).toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" })}
+            </Text>
+          </View>
 
-          <View className="mt-5 gap-3">
-            <Button title="Ver quem está na porta" onPress={viewVisitor} />
-            <Button title="Encerrar campainha" onPress={closeAsEnded} variant="danger" />
+          <View className="h-56 items-center justify-center rounded-xl bg-slate-800">
+            <Ionicons name="person-circle-outline" size={96} color="#93C5FD" />
+            <Text className="mt-2 text-blue-100">Chamada recebida</Text>
+          </View>
+
+          <View className="gap-3">
+            <Button title="Ver quem está na porta" icon="camera" onPress={viewVisitor} />
+            <Button title="Encerrar campainha" icon="call" onPress={closeAsEnded} variant="danger" />
             <Button
               title={muting ? "Silenciado" : "Silenciar"}
-              variant="secondary"
+              icon={muting ? "volume-mute" : "notifications-off-outline"}
+              variant="muted"
               onPress={async () => {
                 await stopAlert();
                 setMuting(true);
