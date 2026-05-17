@@ -10,22 +10,29 @@ export function useDoorbellRealtime(ownerId?: string) {
     if (!ownerId) return;
 
     const channel = supabase
-      .channel(`visitor_calls:${ownerId}`)
+      .channel(`visitor_calls:owner:${ownerId}`)
       .on(
         "postgres_changes",
         {
           event: "INSERT",
           schema: "public",
           table: "visitor_calls",
-          filter: `owner_id=eq.${ownerId}`
+          filter: `owner_id=eq.${ownerId}`,
         },
         async (payload) => {
-          const calls = await listCalls();
-          const enriched = calls.find((call) => call.id === payload.new.id);
-          setActiveCall((enriched ?? (payload.new as VisitorCall)));
+          console.log("[Realtime] INSERT recebido:", payload.new.id);
+          try {
+            const calls = await listCalls();
+            const enriched = calls.find((c) => c.id === payload.new.id);
+            setActiveCall(enriched ?? (payload.new as VisitorCall));
+          } catch {
+            setActiveCall(payload.new as VisitorCall);
+          }
         }
       )
-      .subscribe();
+      .subscribe((status, err) => {
+        console.log("[Realtime] status:", status, err ?? "");
+      });
 
     return () => {
       void supabase.removeChannel(channel);
