@@ -8,7 +8,8 @@
     "android": "expo start --android --port 8081 --offline",
     "ios": "expo start --ios --port 8081 --offline",
     "web": "expo start --web --port 19006 --offline",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "eas-build-pre-install": "cd ../.. && npm install --legacy-peer-deps"
   },
   "dependencies": {
     "@campainha/shared": "*",
