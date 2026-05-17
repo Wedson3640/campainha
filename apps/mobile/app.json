@@ -6,20 +6,32 @@
     "version": "0.1.0",
     "orientation": "portrait",
     "userInterfaceStyle": "light",
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.campainha.digitalqr"
     },
     "android": {
       "package": "com.campainha.digitalqr",
-      "permissions": ["VIBRATE", "POST_NOTIFICATIONS"]
+      "permissions": [
+        "VIBRATE",
+        "POST_NOTIFICATIONS"
+      ]
     },
-    "plugins": ["expo-router", "expo-notifications"],
+    "plugins": [
+      "expo-router",
+      "expo-notifications"
+    ],
     "extra": {
       "router": {
         "origin": false
+      },
+      "eas": {
+        "projectId": "f4ce7b3a-87cb-4af4-aba3-346e8242e150"
       }
-    }
+    },
+    "owner": "wedson_veras"
   }
 }
