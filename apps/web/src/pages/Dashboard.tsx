@@ -83,7 +83,7 @@ export function Dashboard() {
       <main className="app-main">
         <div className="app-top">
           <h1 className="app-title">Minhas Campainhas</h1>
-          <button onClick={() => setShowForm(true)}>+ Nova</button>
+          <button className="btn-nova" onClick={() => setShowForm(true)}>+ Nova</button>
         </div>
 
         {loading ? (

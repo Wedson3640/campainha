@@ -320,6 +320,22 @@ button:disabled {
   margin: 0;
 }
 
+.btn-nova {
+  width: 90px;
+  height: 55px;
+  min-height: unset;
+  background: #2563eb;
+  border: 0;
+  border-radius: 8px;
+  color: #ffffff;
+  font: inherit;
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.btn-nova:hover { background: #1d4ed8; }
+
 .btn-ghost {
   background: none;
   border: none;
