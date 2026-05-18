@@ -223,8 +223,9 @@ button:disabled {
 }
 
 .app-logo {
-  height: 32px;
-  width: auto;
+  width: 180px;
+  max-width: calc(100% - 160px);
+  height: auto;
 }
 
 .app-main {
