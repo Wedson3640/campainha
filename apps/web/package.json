@@ -23,5 +23,9 @@
     "@types/react": "~19.1.10",
     "@types/react-dom": "~19.1.7",
     "typescript": "^5.5.4"
+  },
+  "optionalDependencies": {
+    "@rollup/rollup-linux-x64-gnu": "^4.0.0",
+    "@rollup/rollup-linux-x64-musl": "^4.0.0"
   }
 }

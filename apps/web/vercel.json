@@ -1,4 +1,5 @@
 {
-  "installCommand": "npm install",
+  "installCommand": "cd ../.. && npm install && cd apps/web && npm install",
+  "buildCommand": "npm run build",
   "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }]
 }
