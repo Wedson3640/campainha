@@ -46,10 +46,10 @@ export default function LoginScreen() {
 
   return (
     <Screen scroll={false}>
-      <View className="flex-1 justify-between py-5">
+      <View className="flex-1 justify-center gap-8 py-8">
         <BrandLogo />
 
-        <View className="rounded-xl bg-white p-5">
+        <View className="rounded-xl bg-white p-6 shadow-sm">
           <View className="mx-auto h-16 w-16 items-center justify-center rounded-full bg-blue-50">
             <Ionicons name="person-outline" size={34} color="#2563EB" />
           </View>
