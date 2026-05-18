@@ -23,5 +23,8 @@
   "dependencies": {
     "@expo/ngrok": "^4.1.0",
     "react-native-css-interop": "^0.2.3"
+  },
+  "optionalDependencies": {
+    "@esbuild/linux-x64": "0.21.5"
   }
 }
