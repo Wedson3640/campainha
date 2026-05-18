@@ -9,12 +9,20 @@
         "buildType": "apk"
       },
       "env": {
-        "NODE_OPTIONS": "--max-old-space-size=4096"
+        "NODE_OPTIONS": "--max-old-space-size=4096",
+        "EXPO_PUBLIC_SUPABASE_URL": "https://qeldgdgvhdkctphjpeuq.supabase.co",
+        "EXPO_PUBLIC_SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFlbGRnZGd2aGRrY3RwaGpwZXVxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg4MTA0NTAsImV4cCI6MjA5NDM4NjQ1MH0.49fFUEcMOgf-uNuW6tJ5b0Y_M05V2RERHOJNms1fpGo",
+        "EXPO_PUBLIC_WEB_PUBLIC_URL": "https://campainha.digital"
       }
     },
     "production": {
       "android": {
         "buildType": "app-bundle"
+      },
+      "env": {
+        "EXPO_PUBLIC_SUPABASE_URL": "https://qeldgdgvhdkctphjpeuq.supabase.co",
+        "EXPO_PUBLIC_SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFlbGRnZGd2aGRrY3RwaGpwZXVxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg4MTA0NTAsImV4cCI6MjA5NDM4NjQ1MH0.49fFUEcMOgf-uNuW6tJ5b0Y_M05V2RERHOJNms1fpGo",
+        "EXPO_PUBLIC_WEB_PUBLIC_URL": "https://campainha.digital"
       }
     }
   },
