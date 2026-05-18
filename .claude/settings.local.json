@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "WebFetch(domain:expo.dev)",
+      "WebFetch(domain:api.expo.dev)"
+    ]
+  }
+}
