@@ -1,5 +1,6 @@
 import { PropsWithChildren } from "react";
-import { SafeAreaView, ScrollView, View } from "react-native";
+import { ScrollView, View } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 type ScreenProps = PropsWithChildren<{
   scroll?: boolean;
@@ -7,10 +8,15 @@ type ScreenProps = PropsWithChildren<{
 }>;
 
 export function Screen({ children, scroll = true, dark = false }: ScreenProps) {
-  const content = <View className="flex-1 px-5 py-4">{children}</View>;
+  const insets = useSafeAreaInsets();
+  const content = (
+    <View className="flex-1 px-5 py-4" style={{ paddingTop: insets.top + 16 }}>
+      {children}
+    </View>
+  );
   return (
-    <SafeAreaView className={`flex-1 ${dark ? "bg-ink" : "bg-surface"}`}>
+    <View className={`flex-1 ${dark ? "bg-ink" : "bg-surface"}`}>
       {scroll ? <ScrollView keyboardShouldPersistTaps="handled">{content}</ScrollView> : content}
-    </SafeAreaView>
+    </View>
   );
 }
