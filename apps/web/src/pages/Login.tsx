@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { supabase } from "../lib/supabase";
 import { useNav } from "../ctx";
 
@@ -9,6 +9,7 @@ export function Login() {
   const [mode, setMode] = useState<Mode>("in");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPass, setShowPass] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -33,36 +34,61 @@ export function Login() {
       <div className="panel">
         <img src="/logo.png" alt="Campainha Digital" className="logo" />
 
-        <h1 className="panel-title">{mode === "in" ? "Entrar" : "Criar conta"}</h1>
+        <h1 className="panel-title">
+          {mode === "in" ? "Acesse o sistema" : "Criar conta"}
+        </h1>
         <p className="panel-sub">
           {mode === "in"
-            ? "Acesse suas campainhas e histórico de chamadas."
-            : "Crie sua conta para cadastrar suas campainhas."}
+            ? "Utilize suas credenciais para continuar."
+            : "Preencha os dados para criar sua conta."}
         </p>
 
         <form onSubmit={submit} className="form">
-          <input
-            type="email"
-            placeholder="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-            autoComplete="email"
-            className="input"
-          />
-          <input
-            type="password"
-            placeholder="Senha"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-            minLength={6}
-            autoComplete={mode === "in" ? "current-password" : "new-password"}
-            className="input"
-          />
+          <div className="field-group">
+            <label className="field-label">E-mail cadastrado</label>
+            <div className="input-wrap">
+              <span className="input-icon">👤</span>
+              <input
+                type="email"
+                placeholder="seu@email.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                autoComplete="email"
+                className="input input-with-icon"
+              />
+            </div>
+          </div>
+
+          <div className="field-group">
+            <label className="field-label">Senha</label>
+            <div className="input-wrap">
+              <span className="input-icon">🔒</span>
+              <input
+                type={showPass ? "text" : "password"}
+                placeholder="••••••••"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                minLength={6}
+                autoComplete={mode === "in" ? "current-password" : "new-password"}
+                className="input input-with-icon input-with-toggle"
+              />
+              <button
+                type="button"
+                className="input-toggle"
+                onClick={() => setShowPass((v) => !v)}
+                tabIndex={-1}
+              >
+                {showPass ? "🙈" : "👁"}
+              </button>
+            </div>
+          </div>
+
           {error && <p className="error">{error}</p>}
-          <button type="submit" disabled={loading}>
-            {loading ? "Aguarde…" : mode === "in" ? "Entrar" : "Criar conta"}
+
+          <button type="submit" disabled={loading} className="btn-primary-lg">
+            {loading ? "Aguarde…" : mode === "in" ? "➔  Entrar" : "➔  Criar conta"}
           </button>
         </form>
 
@@ -75,6 +101,8 @@ export function Login() {
             {mode === "in" ? "Criar conta" : "Entrar"}
           </a>
         </p>
+
+        <p className="panel-version">Versão 1.0</p>
       </div>
     </div>
   );
