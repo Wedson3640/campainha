@@ -7,6 +7,7 @@ import Constants from "expo-constants";
 import { AuthProvider, useAuth } from "@/hooks/useAuth";
 import { useDoorbellRealtime } from "@/hooks/useDoorbellRealtime";
 import { CallModal } from "@/components/CallModal";
+import { registerDeviceToken } from "@/services/notifications";
 
 const isExpoGo = Constants.executionEnvironment === "storeClient";
 
@@ -16,7 +17,8 @@ function RootNavigator() {
 
   useEffect(() => {
     if (loading) return;
-    if (!user) router.replace("/login");
+    if (!user) { router.replace("/login"); return; }
+    void registerDeviceToken(user.id);
   }, [loading, user]);
 
   // Quando o morador toca na notificação push com app fechado/background

@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { Pressable, Text, View } from "react-native";
+import { Image, Pressable, Text, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { Link, router } from "expo-router";
 import type { Doorbell, VisitorCall } from "@campainha/shared";
@@ -7,7 +7,6 @@ import { buildPublicDoorbellUrl } from "@campainha/shared";
 import QRCode from "react-native-qrcode-svg";
 import { Screen } from "@/components/Screen";
 import { Button } from "@/components/Button";
-import { BrandLogo } from "@/components/BrandLogo";
 import { listDoorbells } from "@/services/doorbells";
 import { listCalls } from "@/services/calls";
 
@@ -37,8 +36,14 @@ export default function HomeScreen() {
     <Screen dark>
       <View className="gap-5">
         <View className="flex-row items-center justify-between">
-          <Ionicons name="menu" size={26} color="#FFFFFF" />
-          <BrandLogo compact light />
+          <Pressable onPress={() => router.back()} hitSlop={8}>
+            <Ionicons name="arrow-back" size={26} color="#FFFFFF" />
+          </Pressable>
+          <Image
+            source={require("../assets/logo_transparent.png")}
+            style={{ width: 140, height: 44 }}
+            resizeMode="contain"
+          />
           <Pressable className="h-9 w-9 items-center justify-center rounded-full bg-slate-800">
             <Ionicons name="apps" size={18} color="#93C5FD" />
           </Pressable>
