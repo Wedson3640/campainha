@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Alert, Image, Text, View } from "react-native";
+import { ActivityIndicator, Alert, Image, Text, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useLocalSearchParams, router } from "expo-router";
 import type { VisitorCall } from "@campainha/shared";
@@ -13,15 +13,22 @@ export default function VisitorScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const [call, setCall] = useState<VisitorCall | null>(null);
   const [photoUrl, setPhotoUrl] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function load() {
-      const { data, error } = await supabase.from("visitor_calls").select("*, doorbells(nome, local)").eq("id", id).single();
-      if (error) return Alert.alert("Erro", error.message);
-      const nextCall = data as VisitorCall;
-      setCall(nextCall);
-      if (nextCall.visitor_photo_url) {
-        setPhotoUrl(await createSignedVisitorPhotoUrl(nextCall.visitor_photo_url));
+      try {
+        const { data, error } = await supabase.from("visitor_calls").select("*, doorbells(nome, local)").eq("id", id).single();
+        if (error) { Alert.alert("Erro", error.message); return; }
+        const nextCall = data as VisitorCall;
+        setCall(nextCall);
+        if (nextCall.visitor_photo_url) {
+          try {
+            setPhotoUrl(await createSignedVisitorPhotoUrl(nextCall.visitor_photo_url));
+          } catch { /* foto indisponível */ }
+        }
+      } finally {
+        setLoading(false);
       }
     }
     void load();
@@ -34,6 +41,17 @@ export default function VisitorScreen() {
 
   const local = call?.doorbells?.local ?? "Portão da frente";
   const nome = call?.doorbells?.nome ?? "Campainha Digital";
+
+  if (loading) {
+    return (
+      <Screen dark>
+        <View className="flex-1 items-center justify-center gap-4">
+          <ActivityIndicator size="large" color="#93C5FD" />
+          <Text className="text-blue-100">Carregando chamada…</Text>
+        </View>
+      </Screen>
+    );
+  }
 
   return (
     <Screen dark>

@@ -36,8 +36,8 @@ export default function HomeScreen() {
     <Screen dark>
       <View className="gap-5">
         <View className="flex-row items-center justify-between">
-          <Pressable onPress={() => router.back()} hitSlop={8}>
-            <Ionicons name="arrow-back" size={26} color="#FFFFFF" />
+          <Pressable onPress={() => router.push("/settings")} hitSlop={8}>
+            <Ionicons name="settings-outline" size={24} color="#FFFFFF" />
           </Pressable>
           <Image
             source={require("../assets/logo_transparent.png")}

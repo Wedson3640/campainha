@@ -249,6 +249,10 @@ export default function LoginScreen() {
             <Ionicons name="shield-checkmark-outline" size={15} color="#64748B" />
             <Text style={{ color: "#64748B", fontSize: 13 }}>Seus dados estão protegidos com segurança.</Text>
           </View>
+
+          <Text style={{ textAlign: "center", color: "#CBD5E1", fontSize: 11, marginTop: 16 }}>
+            TEST-007
+          </Text>
         </View>
       </ScrollView>
     </KeyboardAvoidingView>

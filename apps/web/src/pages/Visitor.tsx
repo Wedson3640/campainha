@@ -25,10 +25,16 @@ async function captureVisitorPhoto(video: HTMLVideoElement, token: string) {
   if (!supabase) throw new Error(supabaseConfigError);
   const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "user" }, audio: false });
   video.srcObject = stream;
+  await new Promise<void>((resolve, reject) => {
+    video.onloadedmetadata = () => resolve();
+    video.onerror = () => reject(new Error("Erro ao iniciar câmera."));
+    setTimeout(() => resolve(), 3000); // fallback se o evento não disparar
+  });
   await video.play();
+  await new Promise((r) => setTimeout(r, 600)); // aguarda frame estável
   const canvas = document.createElement("canvas");
-  canvas.width = video.videoWidth || 720;
-  canvas.height = video.videoHeight || 960;
+  canvas.width = video.videoWidth || 640;
+  canvas.height = video.videoHeight || 480;
   canvas.getContext("2d")?.drawImage(video, 0, 0, canvas.width, canvas.height);
   stream.getTracks().forEach((t) => t.stop());
   const blob = await new Promise<Blob>((res, rej) =>
